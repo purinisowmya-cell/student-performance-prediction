@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Performance Predictor</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row align-items-stretch gy-4">
+            <!-- Prediction Form -->
+            <div class="col-lg-5">
+                <div class="glass-card">
+                    <h2>Predict Performance</h2>
+                    <form method="POST">
+                        <div class="mb-3">
+                            <label for="study_hours" class="form-label">Study Hours (Daily)</label>
+                            <input type="number" step="any" class="form-control" id="study_hours" name="study_hours"
+                                required placeholder="e.g. 5.5">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="attendance" class="form-label">Attendance (%)</label>
+                            <input type="number" step="any" class="form-control" id="attendance" name="attendance"
+                                required placeholder="e.g. 85">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="previous_marks" class="form-label">Previous Marks (Out of 100)</label>
+                            <input type="number" step="any" class="form-control" id="previous_marks"
+                                name="previous_marks" required placeholder="e.g. 75">
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="assignments" class="form-label">Assignments Completed</label>
+                            <input type="number" class="form-control" id="assignments" name="assignments" required
+                                placeholder="e.g. 8">
+                        </div>
+
+                        <button type="submit" class="btn btn-predict">Predict Result</button>
+                    </form>
+
+                    {% if result %}
+                    <div
+                        class="result-box {% if result == 'Pass' %}result-pass{% elif result == 'Fail' %}result-fail{% else %}result-error{% endif %}">
+                        {% if result == 'Pass' or result == 'Fail' %}
+                        Prediction: {{ result }}
+                        {% else %}
+                        {{ result }}
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Charts Display -->
+            <div class="col-lg-7">
+                <div class="glass-card d-flex flex-column justify-content-center">
+                    <h2 class="mb-4">Model Accuracy Comparison</h2>
+                    <p class="text-white-50 mb-4">We trained multiple Machine Learning models to ensure the highest
+                        prediction accuracy. The chart below illustrates the comparison.</p>
+                    <div class="chart-container text-center">
+                        <img src="{{ url_for('static', filename='model_comparison.png') }}" alt="Model Accuracy Chart"
+                            class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

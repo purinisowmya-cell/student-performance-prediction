@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Performance Predictor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .container:hover {
+            transform: translateY(-5px);
+        }
+
+        h2 {
+            margin-top: 0;
+            text-align: center;
+            font-weight: 600;
+            font-size: 28px;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 300;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        input:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(100, 200, 255, 0.5);
+            background: #fff;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(0, 114, 255, 0.4);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 114, 255, 0.6);
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        .result {
+            margin-top: 30px;
+            text-align: center;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 22px;
+            font-weight: 600;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .result.pass {
+            background: rgba(46, 204, 113, 0.2);
+            border: 1px solid rgba(46, 204, 113, 0.5);
+            color: #2ecc71;
+            text-shadow: 0 0 10px rgba(46, 204, 113, 0.4);
+        }
+
+        .result.fail {
+            background: rgba(231, 76, 60, 0.2);
+            border: 1px solid rgba(231, 76, 60, 0.5);
+            color: #ff6b6b;
+            text-shadow: 0 0 10px rgba(231, 76, 60, 0.4);
+        }
+        
+        .result.error {
+            background: rgba(241, 196, 15, 0.2);
+            border: 1px solid rgba(241, 196, 15, 0.5);
+            color: #f1c40f;
+            font-size: 16px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Student Performance Predictor</h2>
+    <form method="POST">
+        <div class="form-group">
+            <label for="study_hours">Study Hours (Daily):</label>
+            <input type="number" step="any" id="study_hours" name="study_hours" required placeholder="e.g. 5.5">
+        </div>
+
+        <div class="form-group">
+            <label for="attendance">Attendance (%):</label>
+            <input type="number" step="any" id="attendance" name="attendance" required placeholder="e.g. 85">
+        </div>
+
+        <div class="form-group">
+            <label for="previous_marks">Previous Marks (Out of 100):</label>
+            <input type="number" step="any" id="previous_marks" name="previous_marks" required placeholder="e.g. 75">
+        </div>
+
+        <div class="form-group">
+            <label for="assignments">Assignments Completed:</label>
+            <input type="number" id="assignments" name="assignments" required placeholder="e.g. 8">
+        </div>
+
+        <button type="submit">Predict Result</button>
+    </form>
+
+    {% if result %}
+        <div class="result {% if result == 'Pass' %}pass{% elif result == 'Fail' %}fail{% else %}error{% endif %}">
+            {% if result == 'Pass' or result == 'Fail' %}
+                Prediction: {{ result }}
+            {% else %}
+                {{ result }}
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+
+</body>
+</html>
